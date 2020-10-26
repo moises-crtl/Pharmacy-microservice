@@ -1,0 +1,5 @@
+package com.coreCode.app.Item.model;
+
+public class Product {
+
+}

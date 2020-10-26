@@ -1,0 +1,7 @@
+INDEX VERSION 1.131+/home/ioriyagamy/Documents/workspace-spring-tool-suite-4-4.8.0.RELEASE/PracticarCodigoAprendido/.metadata/.plugins/org.eclipse.jdt.core
+2720987794.index
+93702571.index
+2101125149.index
+1286533879.index
+3204985642.index
+746151024.index

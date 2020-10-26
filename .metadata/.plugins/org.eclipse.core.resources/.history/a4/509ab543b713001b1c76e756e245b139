@@ -1,0 +1,51 @@
+package com.practicaCodigoAprendido.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.practicaCodigoAprendido.model.Product;
+import com.practicaCodigoAprendido.respository.ProductRespository;
+
+@Service(value = "productService")
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductRespository productRepository;
+	
+	@Override
+	public List<Product> findAll() {
+		return productRepository.findAll();
+	}
+
+	@Override
+	public Product created(Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product findById(Long idProduct) {
+		return productRepository.findById(idProduct).orElse(null);
+	}
+
+	@Override
+	public Product findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product update(Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product delete(Long idProduct) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

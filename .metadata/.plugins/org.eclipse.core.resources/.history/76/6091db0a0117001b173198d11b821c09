@@ -1,0 +1,105 @@
+package com.practicaCodigoAprendido.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+import com.practicaCodigoAprendido.model.Product;
+import com.practicaCodigoAprendido.respository.ProductRespository;
+
+
+@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
+class ProductServiceTest {
+	
+	@Mock
+	private ProductRespository productRepository;
+
+	@Autowired
+	private ProductService productService;
+	
+	@Before
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+		productService = new ProductServiceImpl(productRepository);
+	}
+	
+	@Test
+	void testFindAll() {
+		List<Product> actual = productService.findAll();
+		when(productRepository.findAll()).thenReturn(actual);
+		assertThat(actual).size().isGreaterThan(0);
+	}
+
+	@Test
+	void testCreated() {
+		Product computer = Product.builder()
+				.idProduct(6L)
+				.name("computer")
+				.price(60000.00)
+				.build();
+		when(productRepository.save(computer)).thenReturn(computer);
+		Product find = productService.findByName("computer");
+		assertThat(find.getName()).isEqualTo("computer");
+	}
+
+	@Test
+	void testFindById() {
+		Long idProduct = 1L;
+		Product findById = productService.findById(idProduct);
+		assertThat(findById.getIdProduct()).isEqualTo(idProduct);
+		
+	}
+
+	@Test
+	void testFindByName() {
+		String name = "iphone";
+		when(productRepository.findByName(name)).thenReturn(new Product(1L, "iphone", 100.00, null, "fjdk"));
+		Product findByName = productService.findByName(name);
+		assertEquals(findByName.getName(), "iphone");
+
+	}
+
+	@Test
+	void testUpdate() {
+		Product laptop = Product.builder()
+				.name("laptop")
+				.price(50000.00)
+				.build();
+		laptop.setIdProduct(4L);
+		when(productRepository.save(laptop)).thenReturn(laptop);
+		assertThat(laptop.getName()).isEqualTo("laptop");
+	}
+
+	@Test
+	void testDelete() {
+		long idProduct = 1L;
+		Product deleteProduct = new Product();
+		deleteProduct.setIdProduct(idProduct);
+		when(productRepository.findById(idProduct).isPresent());
+		productService.delete(idProduct);
+		verify(productService).delete(idProduct);
+		
+//		long idProduct = 4L;
+//		boolean deleteProduct = productRepository.findById(idProduct).isPresent();
+//		assertTrue(delete);
+		
+	}
+
+}

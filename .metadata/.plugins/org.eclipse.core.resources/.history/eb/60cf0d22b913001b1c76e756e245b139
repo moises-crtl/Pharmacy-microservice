@@ -1,0 +1,9 @@
+package com.practicaCodigoAprendido.utils;
+
+
+
+public interface Constants {
+	
+	String  ENDPOINT_LIST_ALL_PRODUCT = "/list";
+
+}

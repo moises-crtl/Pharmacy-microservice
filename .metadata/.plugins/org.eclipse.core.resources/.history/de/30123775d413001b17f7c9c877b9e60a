@@ -1,0 +1,62 @@
+package com.practicaCodigoAprendido.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.practicaCodigoAprendido.model.Product;
+import com.practicaCodigoAprendido.service.ProductService;
+import com.practicaCodigoAprendido.utils.Constants;
+
+
+
+@RestController
+public class ProductController {
+	
+	@Autowired
+	private ProductService productService;
+	
+	@RequestMapping(value = Constants.ENDPOINT_CREATE_PRODUCT, method = RequestMethod.POST)
+	public ResponseEntity<Product> createdProduct(@RequestBody Product product){
+		Product createdProduct = productService.created(product);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+	}
+	
+	@RequestMapping(value = Constants.ENDPOINT_LIST_ALL_PRODUCT, method = RequestMethod.GET)
+	public ResponseEntity<List<Product>> listAllProduct(){
+		List<Product> listAllProduct = productService.findAll();
+		if (listAllProduct.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}else {
+			return ResponseEntity.ok(listAllProduct);
+		}
+	}
+	
+	@RequestMapping(value = Constants.ENDPOINT_LIST_FIND_ID_PRODUCT, method = RequestMethod.GET)
+	public ResponseEntity<Product> viewIdProduct(@PathVariable("idProduct")Long idProduct){
+		Product viewIdProduct = productService.findById(idProduct);
+		if (viewIdProduct == null) {
+			return ResponseEntity.notFound().build();
+		}else {
+			return ResponseEntity.ok(viewIdProduct);
+		}
+	}
+
+	@RequestMapping(value = Constants.ENDPOINT_LIST_FIND_NAME_PRODUCT, method = RequestMethod.GET)
+	public ResponseEntity<Product> viewIdProduct(@PathVariable("name")String name){
+		Product viewIdProductName = productService.findByName(name);
+		if (viewIdProductName == null) {
+			return ResponseEntity.notFound().build();
+		}else {
+			return ResponseEntity.ok(viewIdProductName);
+		}
+	}
+}
